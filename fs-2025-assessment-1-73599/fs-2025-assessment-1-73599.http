@@ -1,0 +1,6 @@
+@fs_2025_assessment_1_73599_HostAddress = http://localhost:5073
+
+GET {{fs_2025_assessment_1_73599_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

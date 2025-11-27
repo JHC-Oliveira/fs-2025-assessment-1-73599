@@ -5,9 +5,14 @@ using Microsoft.Azure.Cosmos;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Path to JSON file
+var jsonPath = Path.Combine(AppContext.BaseDirectory, "Data", "dublinbike.json");
+
 // Register StationService with JSON data
-builder.Services.AddStationService("Data/dublinbike.json");	// V1
-builder.Services.AddCosmosStationService(builder.Configuration); // V2
+builder.Services.AddStationService(jsonPath);	// V1
+builder.Services.AddCosmosStationService(builder.Configuration, jsonPath); // V2
+builder.Services.AddStationUpdater(); // Background updater
+
 
 // Swagger setup
 builder.Services.AddEndpointsApiExplorer();

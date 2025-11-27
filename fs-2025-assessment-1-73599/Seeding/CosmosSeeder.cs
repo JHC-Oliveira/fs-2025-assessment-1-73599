@@ -17,8 +17,8 @@ namespace fs_2025_assessment_1_73599.Seeding
 		{
 			var json = await File.ReadAllTextAsync(jsonPath);
 			var stations = JsonSerializer.Deserialize<List<Station>>(json) ?? new List<Station>();
-			Console.WriteLine($"📄 Reading from: {jsonPath}");
-			Console.WriteLine($"📄 Found {stations.Count} stations");
+			Console.WriteLine($"Reading from: {jsonPath}");
+			Console.WriteLine($"Found {stations.Count} stations");
 
 
 			foreach (var station in stations)

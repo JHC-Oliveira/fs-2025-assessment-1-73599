@@ -17,7 +17,7 @@ namespace fs_2025_assessment_1_73599.Startup
 		}
 
 		// V2: Cosmos DB
-		public static void AddCosmosStationService(this IServiceCollection services, IConfiguration config)
+		public static void AddCosmosStationService(this IServiceCollection services, IConfiguration config, string jsonPath)
 		{
 			// Read settings from appsettings.json
 			var endpointUri = config["CosmosDb:EndpointUri"];
@@ -25,8 +25,15 @@ namespace fs_2025_assessment_1_73599.Startup
 			var databaseName = config["CosmosDb:DatabaseName"];
 			var containerName = config["CosmosDb:ContainerName"];
 
+
 			var cosmosClient = new CosmosClient(endpointUri, primaryKey);
-			services.AddSingleton(new CosmosStationService(cosmosClient, databaseName, containerName));
+			services.AddSingleton(new CosmosStationService(cosmosClient, databaseName, containerName, jsonPath));
+		}
+
+		// Background updater (V2 sync)
+		public static void AddStationUpdater(this IServiceCollection services)
+		{
+			services.AddHostedService<CosmosStationUpdateBackgroundService>();
 		}
 
 	}

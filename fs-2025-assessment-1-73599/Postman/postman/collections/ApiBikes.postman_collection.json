@@ -1,0 +1,90 @@
+{
+  "info": {
+    "_postman_id": "d2f0b757-d408-43e1-8bad-5b48d5628d47",
+    "name": "ApiBikes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "stations",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "e147e514-9506-401a-8649-186dd0186a6c",
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "ba66b9a9-dff6-400d-8418-acdb0580a5a8",
+            "exec": [
+              "// Test 1: Check response status code is 200",
+              "pm.test(\"Status code is 200 OK\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "// Test 2: Verify response is not empty",
+              "pm.test(\"Response is not empty\", function () {",
+              "    pm.expect(pm.response.text()).to.not.be.empty;",
+              "});",
+              "",
+              "// Test 3: Validate response structure is an array",
+              "pm.test(\"Response is an array\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('array');",
+              "});",
+              "",
+              "// Test 4: Check that response contains stations (can be empty array)",
+              "pm.test(\"Response is a valid array of stations\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    pm.expect(jsonData).to.be.an('array');",
+              "    // Array can be empty, which is valid",
+              "});",
+              "",
+              "// Test 5: Verify response has correct Content-Type header",
+              "pm.test(\"Content-Type header is application/json\", function () {",
+              "    pm.response.to.have.header(\"Content-Type\");",
+              "    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+              "});",
+              "",
+              "// Test 6: Validate station objects have expected properties (if array is not empty)",
+              "pm.test(\"Station objects have valid structure (if stations exist)\", function () {",
+              "    const jsonData = pm.response.json();",
+              "    if (jsonData.length > 0) {",
+              "        const station = jsonData[0];",
+              "        pm.expect(station).to.be.an('object');",
+              "        pm.expect(station).to.have.property('id');",
+              "    } else {",
+              "        // If no stations, test passes as this is valid",
+              "        pm.expect(jsonData).to.be.an('array');",
+              "    }",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "id": "8794108f-c034-4c54-a71a-637db11f8e75",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "https://localhost:7253/api/stations",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7253",
+          "path": [
+            "api",
+            "stations"
+          ]
+        }
+      }
+    }
+  ]
+}

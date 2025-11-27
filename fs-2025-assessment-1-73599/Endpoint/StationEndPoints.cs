@@ -54,34 +54,48 @@ namespace fs_2025_assessment_1_73599.Endpoint
 
 			// ---------------- V2 ENDPOINTS (Cosmos DB) ----------------
 
-			// GET all stations
-			app.MapGet("/api/v2/stations", async (CosmosStationService cosmosService) =>
+			// GET all stations with filters, search, sort, pagination
+			app.MapGet("/api/v2/stations/query", async (
+				string? status,
+				int? minBikes,
+				string? name_address,
+				string? sort,
+				string? acs_desc,
+				int? page,
+				int? pageSize,
+				CosmosStationService service) =>
 			{
-				var stations = await cosmosService.GetAllStationsAsync();
-				return stations.Any() ? Results.Ok(stations) : Results.NotFound(new { message = "No stations found" });
+				var results = await service.QueryStationsAsync(status, minBikes, name_address, sort, acs_desc, page, pageSize);
+				return Results.Ok(results);
+			});
+
+			// GET summary
+			app.MapGet("/api/v2/stations/summary", async (CosmosStationService service) =>
+			{
+				var summary = await service.GetSummaryAsync();
+				return Results.Ok(summary);
 			});
 
 			// GET station by number
-			app.MapGet("/api/v2/stations/{number:int}", async (int number, CosmosStationService cosmosService) =>
+			app.MapGet("/api/v2/stations/{number}", async (int number, CosmosStationService service) =>
 			{
-				var station = await cosmosService.GetStationByNumberAsync(number);
+				var station = await service.GetStationByNumberAsync(number);
 				return station is not null ? Results.Ok(station) : Results.NotFound();
 			});
 
 			// CREATE station
-			app.MapPost("/api/v2/stations", async (Station station, CosmosStationService cosmosService) =>
+			app.MapPost("/api/v2/stations", async (Station station, CosmosStationService service) =>
 			{
-				await cosmosService.AddStationAsync(station);
+				await service.AddStationAsync(station);
 				return Results.Created($"/api/v2/stations/{station.number}", station);
 			});
 
-			// UPDATE station
-			app.MapPut("/api/v2/stations/{number:int}", async (int number, Station updated, CosmosStationService cosmosService) =>
+			// PUT update an existing station
+			app.MapPut("/api/v2/stations/{number}", async (int number, Station updated, CosmosStationService service) =>
 			{
-				var success = await cosmosService.UpdateStationAsync(number, updated);
-				return success ? Results.Ok(updated) : Results.NotFound(new { message = $"Station {number} not found" });
-			});			
-
+				var success = await service.UpdateStationAsync(number, updated);
+				return success ? Results.Ok(updated) : Results.NotFound();
+			});
 		}
 	}
 }

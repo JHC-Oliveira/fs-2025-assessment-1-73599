@@ -1,14 +1,10 @@
 ﻿namespace fs_2025_assessment_1_73599.Models
-{
-
-	public class StationList
-	{
-		public Station[] ListOfStation { get; set; }
-	}
-
+{ 	
 	public class Station
 	{
+		
 		public int number { get; set; }
+		public string id => number.ToString();
 		public string contract_name { get; set; }
 		public string name { get; set; }
 		public string address { get; set; }
@@ -20,6 +16,15 @@
 		public int available_bikes { get; set; }
 		public string status { get; set; }
 		public long last_update { get; set; }
+
+		//UTC conversion
+		public DateTimeOffset last_update_datetime =>
+		DateTimeOffset.FromUnixTimeMilliseconds(last_update);
+
+		//Europe/Dublin conversion
+		public DateTimeOffset last_update_local =>
+			TimeZoneInfo.ConvertTime(last_update_datetime,
+				TimeZoneInfo.FindSystemTimeZoneById("Europe/Dublin"));
 	}
 
 	public class Position

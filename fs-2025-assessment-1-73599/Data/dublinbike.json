@@ -5,7 +5,7 @@
     "name": "SMITHFIELD NORTH",
     "address": "Smithfield North",
     "position": {
-      "lat": 53.349562,
+      "lat": 53.349564,
       "lng": -6.278198
     },
     "banking": false,
@@ -13,7 +13,7 @@
     "bike_stands": 30,
     "available_bike_stands": 30,
     "available_bikes": 0,
-    "status": "OPEN",
+    "status": "CLOSED",
     "last_update": 1729065138000
   },
   {
@@ -22,8 +22,8 @@
     "name": "PARNELL SQUARE NORTH",
     "address": "Parnell Square North",
     "position": {
-      "lat": 53.3537415547453,
-      "lng": -6.26530144781526
+      "lat": 53.35374,
+      "lng": -6.265301
     },
     "banking": false,
     "bonus": false,
@@ -39,7 +39,7 @@
     "name": "CLONMEL STREET",
     "address": "Clonmel Street",
     "position": {
-      "lat": 53.336021,
+      "lat": 53.33602,
       "lng": -6.26298
     },
     "banking": false,
@@ -56,7 +56,7 @@
     "name": "AVONDALE ROAD",
     "address": "Avondale Road",
     "position": {
-      "lat": 53.359405,
+      "lat": 53.359406,
       "lng": -6.276142
     },
     "banking": false,
@@ -107,7 +107,7 @@
     "name": "CHRISTCHURCH PLACE",
     "address": "Christchurch Place",
     "position": {
-      "lat": 53.343368,
+      "lat": 53.34337,
       "lng": -6.27012
     },
     "banking": false,
@@ -124,7 +124,7 @@
     "name": "GRANTHAM STREET",
     "address": "Grantham Street",
     "position": {
-      "lat": 53.334123,
+      "lat": 53.33412,
       "lng": -6.265436
     },
     "banking": false,
@@ -141,7 +141,7 @@
     "name": "PEARSE STREET",
     "address": "Pearse Street",
     "position": {
-      "lat": 53.344304,
+      "lat": 53.344303,
       "lng": -6.250427
     },
     "banking": false,
@@ -158,7 +158,7 @@
     "name": "YORK STREET EAST",
     "address": "York Street East",
     "position": {
-      "lat": 53.338755,
+      "lat": 53.338757,
       "lng": -6.262003
     },
     "banking": false,
@@ -175,7 +175,7 @@
     "name": "EXCISE WALK",
     "address": "Excise Walk",
     "position": {
-      "lat": 53.347777,
+      "lat": 53.34778,
       "lng": -6.244239
     },
     "banking": false,
@@ -192,7 +192,7 @@
     "name": "FITZWILLIAM SQUARE WEST",
     "address": "Fitzwilliam Square West",
     "position": {
-      "lat": 53.336074,
+      "lat": 53.336075,
       "lng": -6.252825
     },
     "banking": false,
@@ -209,7 +209,7 @@
     "name": "PORTOBELLO ROAD",
     "address": "Portobello Road",
     "position": {
-      "lat": 53.330091,
+      "lat": 53.33009,
       "lng": -6.268044
     },
     "banking": false,
@@ -226,7 +226,7 @@
     "name": "PARNELL STREET",
     "address": "Parnell Street",
     "position": {
-      "lat": 53.350929,
+      "lat": 53.35093,
       "lng": -6.265125
     },
     "banking": false,
@@ -260,7 +260,7 @@
     "name": "FOWNES STREET UPPER",
     "address": "Fownes Street Upper",
     "position": {
-      "lat": 53.344603,
+      "lat": 53.344604,
       "lng": -6.263371
     },
     "banking": false,
@@ -294,7 +294,7 @@
     "name": "CUSTOM HOUSE",
     "address": "Custom House",
     "position": {
-      "lat": 53.348279,
+      "lat": 53.348278,
       "lng": -6.254662
     },
     "banking": false,
@@ -325,10 +325,10 @@
   {
     "number": 112,
     "contract_name": "dublin",
-    "name": "NORTH CIRCULAR ROAD (O'CONNELL'S)",
-    "address": "North Circular Road (O'Connell's)",
+    "name": "NORTH CIRCULAR ROAD (O\u0027CONNELL\u0027S)",
+    "address": "North Circular Road (O\u0027Connell\u0027s)",
     "position": {
-      "lat": 53.357841,
+      "lat": 53.35784,
       "lng": -6.251557
     },
     "banking": false,
@@ -345,7 +345,7 @@
     "name": "HANOVER QUAY",
     "address": "Hanover Quay",
     "position": {
-      "lat": 53.344115,
+      "lat": 53.344116,
       "lng": -6.237153
     },
     "banking": false,
@@ -362,7 +362,7 @@
     "name": "OLIVER BOND STREET",
     "address": "Oliver Bond Street",
     "position": {
-      "lat": 53.343893,
+      "lat": 53.34389,
       "lng": -6.280531
     },
     "banking": false,
@@ -413,7 +413,7 @@
     "name": "BENSON STREET",
     "address": "Benson Street",
     "position": {
-      "lat": 53.344153,
+      "lat": 53.344154,
       "lng": -6.233451
     },
     "banking": false,
@@ -430,7 +430,7 @@
     "name": "EARLSFORT TERRACE",
     "address": "Earlsfort Terrace",
     "position": {
-      "lat": 53.334295,
+      "lat": 53.334293,
       "lng": -6.258503
     },
     "banking": false,
@@ -447,7 +447,7 @@
     "name": "GOLDEN LANE",
     "address": "Golden Lane",
     "position": {
-      "lat": 53.340803,
+      "lat": 53.3408,
       "lng": -6.267732
     },
     "banking": false,
@@ -464,7 +464,7 @@
     "name": "DEVERELL PLACE",
     "address": "Deverell Place",
     "position": {
-      "lat": 53.351464,
+      "lat": 53.351463,
       "lng": -6.255265
     },
     "banking": false,
@@ -481,7 +481,7 @@
     "name": "WILTON TERRACE (PARK)",
     "address": "Wilton Terrace (Park)",
     "position": {
-      "lat": 53.333653,
+      "lat": 53.333652,
       "lng": -6.248345
     },
     "banking": false,
@@ -515,7 +515,7 @@
     "name": "FENIAN STREET",
     "address": "Fenian Street",
     "position": {
-      "lat": 53.341428,
+      "lat": 53.341427,
       "lng": -6.24672
     },
     "banking": false,
@@ -532,7 +532,7 @@
     "name": "MERRION SQUARE SOUTH",
     "address": "Merrion Square South",
     "position": {
-      "lat": 53.338614,
+      "lat": 53.338615,
       "lng": -6.248606
     },
     "banking": false,
@@ -549,7 +549,7 @@
     "name": "SOUTH DOCK ROAD",
     "address": "South Dock Road",
     "position": {
-      "lat": 53.341833,
+      "lat": 53.34183,
       "lng": -6.231291
     },
     "banking": false,
@@ -566,7 +566,7 @@
     "name": "CITY QUAY",
     "address": "City Quay",
     "position": {
-      "lat": 53.346637,
+      "lat": 53.346638,
       "lng": -6.246154
     },
     "banking": false,
@@ -583,7 +583,7 @@
     "name": "EXCHEQUER STREET",
     "address": "Exchequer Street",
     "position": {
-      "lat": 53.343034,
+      "lat": 53.343033,
       "lng": -6.263578
     },
     "banking": false,
@@ -651,7 +651,7 @@
     "name": "LIME STREET",
     "address": "Lime Street",
     "position": {
-      "lat": 53.346026,
+      "lat": 53.346027,
       "lng": -6.243576
     },
     "banking": false,
@@ -668,7 +668,7 @@
     "name": "CHARLEMONT PLACE",
     "address": "Charlemont Street",
     "position": {
-      "lat": 53.330662,
+      "lat": 53.33066,
       "lng": -6.260177
     },
     "banking": false,
@@ -702,7 +702,7 @@
     "name": "HARDWICKE PLACE",
     "address": "Hardwicke Place",
     "position": {
-      "lat": 53.357043,
+      "lat": 53.357044,
       "lng": -6.263232
     },
     "banking": false,
@@ -719,7 +719,7 @@
     "name": "WOLFE TONE STREET",
     "address": "Wolfe Tone Street",
     "position": {
-      "lat": 53.348875,
+      "lat": 53.348873,
       "lng": -6.267459
     },
     "banking": false,
@@ -736,7 +736,7 @@
     "name": "FRANCIS STREET",
     "address": "Francis Street",
     "position": {
-      "lat": 53.342081,
+      "lat": 53.34208,
       "lng": -6.275233
     },
     "banking": false,
@@ -770,7 +770,7 @@
     "name": "GUILD STREET",
     "address": "Guild Street",
     "position": {
-      "lat": 53.347932,
+      "lat": 53.34793,
       "lng": -6.240928
     },
     "banking": false,
@@ -787,7 +787,7 @@
     "name": "HERBERT PLACE",
     "address": "Herbert Place",
     "position": {
-      "lat": 53.334432,
+      "lat": 53.33443,
       "lng": -6.245575
     },
     "banking": false,
@@ -804,7 +804,7 @@
     "name": "HIGH STREET",
     "address": "High Street",
     "position": {
-      "lat": 53.343565,
+      "lat": 53.343567,
       "lng": -6.275071
     },
     "banking": false,
@@ -821,7 +821,7 @@
     "name": "NORTH CIRCULAR ROAD",
     "address": "North Circular Road",
     "position": {
-      "lat": 53.359624,
+      "lat": 53.359623,
       "lng": -6.260348
     },
     "banking": false,
@@ -838,7 +838,7 @@
     "name": "WESTERN WAY",
     "address": "Western Way",
     "position": {
-      "lat": 53.354929,
+      "lat": 53.35493,
       "lng": -6.269425
     },
     "banking": false,
@@ -855,7 +855,7 @@
     "name": "TALBOT STREET",
     "address": "Talbot Street",
     "position": {
-      "lat": 53.350974,
+      "lat": 53.350975,
       "lng": -6.25294
     },
     "banking": false,
@@ -872,7 +872,7 @@
     "name": "NEWMAN HOUSE",
     "address": "Newman House",
     "position": {
-      "lat": 53.337132,
+      "lat": 53.33713,
       "lng": -6.26059
     },
     "banking": false,
@@ -886,10 +886,10 @@
   {
     "number": 58,
     "contract_name": "dublin",
-    "name": "SIR PATRICK DUN'S",
-    "address": "Sir Patrick's Dun",
+    "name": "SIR PATRICK DUN\u0027S",
+    "address": "Sir Patrick\u0027s Dun",
     "position": {
-      "lat": 53.339218,
+      "lat": 53.33922,
       "lng": -6.240642
     },
     "banking": false,
@@ -923,7 +923,7 @@
     "name": "GRANGEGORMAN LOWER (CENTRAL)",
     "address": "Grangegorman Lower (Central)",
     "position": {
-      "lat": 53.355173,
+      "lat": 53.35517,
       "lng": -6.278424
     },
     "banking": false,
@@ -940,7 +940,7 @@
     "name": "KING STREET NORTH",
     "address": "King Street North",
     "position": {
-      "lat": 53.350291,
+      "lat": 53.350292,
       "lng": -6.273507
     },
     "banking": false,
@@ -957,7 +957,7 @@
     "name": "KILLARNEY STREET",
     "address": "Killarney Street",
     "position": {
-      "lat": 53.354845,
+      "lat": 53.354843,
       "lng": -6.247579
     },
     "banking": false,
@@ -974,7 +974,7 @@
     "name": "HERBERT STREET",
     "address": "Herbert Street",
     "position": {
-      "lat": 53.335742,
+      "lat": 53.335743,
       "lng": -6.24551
     },
     "banking": false,
@@ -991,7 +991,7 @@
     "name": "HANOVER QUAY EAST",
     "address": "Hanover Quay East",
     "position": {
-      "lat": 53.343653,
+      "lat": 53.343655,
       "lng": -6.231755
     },
     "banking": false,
@@ -1008,7 +1008,7 @@
     "name": "CUSTOM HOUSE QUAY",
     "address": "Custom House Quay",
     "position": {
-      "lat": 53.347884,
+      "lat": 53.347885,
       "lng": -6.248048
     },
     "banking": false,
@@ -1025,7 +1025,7 @@
     "name": "MOLESWORTH STREET",
     "address": "Molesworth Street",
     "position": {
-      "lat": 53.341288,
+      "lat": 53.34129,
       "lng": -6.258117
     },
     "banking": false,
@@ -1042,7 +1042,7 @@
     "name": "GEORGES QUAY",
     "address": "Georges Quay",
     "position": {
-      "lat": 53.347508,
+      "lat": 53.347507,
       "lng": -6.252192
     },
     "banking": false,
@@ -1076,7 +1076,7 @@
     "name": "MOUNT BROWN",
     "address": "Mount Brown",
     "position": {
-      "lat": 53.341645,
+      "lat": 53.341644,
       "lng": -6.29719
     },
     "banking": false,
@@ -1093,7 +1093,7 @@
     "name": "MARKET STREET SOUTH",
     "address": "Market Street South",
     "position": {
-      "lat": 53.342296,
+      "lat": 53.342297,
       "lng": -6.287661
     },
     "banking": false,
@@ -1127,7 +1127,7 @@
     "name": "ECCLES STREET EAST",
     "address": "Eccles Street East",
     "position": {
-      "lat": 53.358115,
+      "lat": 53.358116,
       "lng": -6.265601
     },
     "banking": false,
@@ -1144,7 +1144,7 @@
     "name": "GRAND CANAL DOCK",
     "address": "Grand Canal Dock",
     "position": {
-      "lat": 53.342638,
+      "lat": 53.342636,
       "lng": -6.238695
     },
     "banking": false,
@@ -1161,7 +1161,7 @@
     "name": "MERRION SQUARE EAST",
     "address": "Merrion Square East",
     "position": {
-      "lat": 53.339434,
+      "lat": 53.339436,
       "lng": -6.246548
     },
     "banking": false,
@@ -1178,7 +1178,7 @@
     "name": "YORK STREET WEST",
     "address": "York Street West",
     "position": {
-      "lat": 53.339334,
+      "lat": 53.339333,
       "lng": -6.264699
     },
     "banking": false,
@@ -1192,8 +1192,8 @@
   {
     "number": 37,
     "contract_name": "dublin",
-    "name": "ST. STEPHEN'S GREEN SOUTH",
-    "address": "St. Stephen's Green South",
+    "name": "ST. STEPHEN\u0027S GREEN SOUTH",
+    "address": "St. Stephen\u0027s Green South",
     "position": {
       "lat": 53.337494,
       "lng": -6.26199
@@ -1229,7 +1229,7 @@
     "name": "ROYAL HOSPITAL",
     "address": "Royal Hospital",
     "position": {
-      "lat": 53.343897,
+      "lat": 53.3439,
       "lng": -6.29706
     },
     "banking": false,
@@ -1263,7 +1263,7 @@
     "name": "GRANGEGORMAN LOWER (NORTH)",
     "address": "Grangegorman Lower (North)",
     "position": {
-      "lat": 53.355954,
+      "lat": 53.355953,
       "lng": -6.278378
     },
     "banking": false,
@@ -1277,10 +1277,10 @@
   {
     "number": 36,
     "contract_name": "dublin",
-    "name": "ST. STEPHEN'S GREEN EAST",
-    "address": "St. Stephen's Green East",
+    "name": "ST. STEPHEN\u0027S GREEN EAST",
+    "address": "St. Stephen\u0027s Green East",
     "position": {
-      "lat": 53.337824,
+      "lat": 53.337826,
       "lng": -6.256035
     },
     "banking": false,
@@ -1314,7 +1314,7 @@
     "name": "TOWNSEND STREET",
     "address": "Townsend Street",
     "position": {
-      "lat": 53.345922,
+      "lat": 53.34592,
       "lng": -6.254614
     },
     "banking": false,
@@ -1329,7 +1329,7 @@
     "number": 50,
     "contract_name": "dublin",
     "name": "GEORGES LANE",
-    "address": "George's Lane",
+    "address": "George\u0027s Lane",
     "position": {
       "lat": 53.35023,
       "lng": -6.279696
@@ -1348,7 +1348,7 @@
     "name": "PHIBSBOROUGH ROAD",
     "address": "Phibsborough Road",
     "position": {
-      "lat": 53.356307,
+      "lat": 53.356308,
       "lng": -6.273717
     },
     "banking": false,
@@ -1365,7 +1365,7 @@
     "name": "ECCLES STREET",
     "address": "Eccles Street",
     "position": {
-      "lat": 53.359246,
+      "lat": 53.359245,
       "lng": -6.269779
     },
     "banking": false,
@@ -1382,7 +1382,7 @@
     "name": "PORTOBELLO HARBOUR",
     "address": "Portobello Harbour",
     "position": {
-      "lat": 53.330362,
+      "lat": 53.33036,
       "lng": -6.265163
     },
     "banking": false,
@@ -1399,7 +1399,7 @@
     "name": "MATER HOSPITAL",
     "address": "Mater Hospital",
     "position": {
-      "lat": 53.359967,
+      "lat": 53.359966,
       "lng": -6.264828
     },
     "banking": false,
@@ -1416,7 +1416,7 @@
     "name": "BLESSINGTON STREET",
     "address": "Blessington Street",
     "position": {
-      "lat": 53.356769,
+      "lat": 53.35677,
       "lng": -6.26814
     },
     "banking": false,
@@ -1450,7 +1450,7 @@
     "name": "MOUNTJOY SQUARE EAST",
     "address": "Mountjoy Square East",
     "position": {
-      "lat": 53.356717,
+      "lat": 53.356716,
       "lng": -6.256359
     },
     "banking": false,
@@ -1518,7 +1518,7 @@
     "name": "PARKGATE STREET",
     "address": "Parkgate Street",
     "position": {
-      "lat": 53.347972,
+      "lat": 53.347973,
       "lng": -6.291804
     },
     "banking": false,
@@ -1535,7 +1535,7 @@
     "name": "SMITHFIELD",
     "address": "Smithfield",
     "position": {
-      "lat": 53.347692,
+      "lat": 53.34769,
       "lng": -6.278214
     },
     "banking": false,
@@ -1552,7 +1552,7 @@
     "name": "DAME STREET",
     "address": "Dame Street",
     "position": {
-      "lat": 53.344007,
+      "lat": 53.344006,
       "lng": -6.266802
     },
     "banking": false,
@@ -1569,7 +1569,7 @@
     "name": "HEUSTON BRIDGE (SOUTH)",
     "address": "Heuston Bridge (South)",
     "position": {
-      "lat": 53.347106,
+      "lat": 53.347107,
       "lng": -6.292041
     },
     "banking": false,
@@ -1586,7 +1586,7 @@
     "name": "CATHAL BRUGHA STREET",
     "address": "Cathal Brugha Street",
     "position": {
-      "lat": 53.352149,
+      "lat": 53.35215,
       "lng": -6.260533
     },
     "banking": false,
@@ -1620,7 +1620,7 @@
     "name": "BUCKINGHAM STREET LOWER",
     "address": "Buckingham Street Lower",
     "position": {
-      "lat": 53.353331,
+      "lat": 53.353333,
       "lng": -6.249319
     },
     "banking": false,
@@ -1654,7 +1654,7 @@
     "name": "CHARLEVILLE ROAD",
     "address": "Charleville Road",
     "position": {
-      "lat": 53.359157,
+      "lat": 53.359158,
       "lng": -6.281866
     },
     "banking": false,
@@ -1668,10 +1668,10 @@
   {
     "number": 33,
     "contract_name": "dublin",
-    "name": "PRINCES STREET / O'CONNELL STREET",
-    "address": "Princes Street / O'Connell Street",
+    "name": "PRINCES STREET / O\u0027CONNELL STREET",
+    "address": "Princes Street / O\u0027Connell Street",
     "position": {
-      "lat": 53.349013,
+      "lat": 53.349014,
       "lng": -6.260311
     },
     "banking": false,
@@ -1705,7 +1705,7 @@
     "name": "FITZWILLIAM SQUARE EAST",
     "address": "Fitzwilliam Square East",
     "position": {
-      "lat": 53.335211,
+      "lat": 53.335213,
       "lng": -6.2509
     },
     "banking": false,
@@ -1722,7 +1722,7 @@
     "name": "GRATTAN STREET",
     "address": "Grattan Street",
     "position": {
-      "lat": 53.339629,
+      "lat": 53.33963,
       "lng": -6.243778
     },
     "banking": false,
@@ -1739,7 +1739,7 @@
     "name": "ST JAMES HOSPITAL (LUAS)",
     "address": "St James Hospital (Luas)",
     "position": {
-      "lat": 53.341359,
+      "lat": 53.34136,
       "lng": -6.292951
     },
     "banking": false,
@@ -1756,7 +1756,7 @@
     "name": "HARCOURT TERRACE",
     "address": "Harcourt Terrace",
     "position": {
-      "lat": 53.332763,
+      "lat": 53.332764,
       "lng": -6.257942
     },
     "banking": false,
@@ -1773,7 +1773,7 @@
     "name": "BOLTON STREET",
     "address": "Bolton Street",
     "position": {
-      "lat": 53.351182,
+      "lat": 53.35118,
       "lng": -6.269859
     },
     "banking": false,
@@ -1807,7 +1807,7 @@
     "name": "ORMOND QUAY UPPER",
     "address": "Ormond Quay Upper",
     "position": {
-      "lat": 53.346057,
+      "lat": 53.346058,
       "lng": -6.268001
     },
     "banking": false,
@@ -1824,7 +1824,7 @@
     "name": "GRANGEGORMAN LOWER (SOUTH)",
     "address": "Grangegorman Lower (South)",
     "position": {
-      "lat": 53.354663,
+      "lat": 53.354664,
       "lng": -6.278681
     },
     "banking": false,
@@ -1841,7 +1841,7 @@
     "name": "MOUNTJOY SQUARE WEST",
     "address": "Mountjoy Square West",
     "position": {
-      "lat": 53.356299,
+      "lat": 53.3563,
       "lng": -6.258586
     },
     "banking": false,
@@ -1858,7 +1858,7 @@
     "name": "WILTON TERRACE",
     "address": "Wilton Terrace",
     "position": {
-      "lat": 53.332383,
+      "lat": 53.332382,
       "lng": -6.252717
     },
     "banking": false,
@@ -1892,7 +1892,7 @@
     "name": "HEUSTON BRIDGE (NORTH)",
     "address": "Heuston Bridge (North)",
     "position": {
-      "lat": 53.347802,
+      "lat": 53.3478,
       "lng": -6.292432
     },
     "banking": false,
@@ -1936,5 +1936,22 @@
     "available_bikes": 2,
     "status": "OPEN",
     "last_update": 1729065289000
+  },
+  {
+    "number": 999,
+    "contract_name": "dublin",
+    "name": "a",
+    "address": "a",
+    "position": {
+      "lat": 22222,
+      "lng": 3333330
+    },
+    "banking": true,
+    "bonus": true,
+    "bike_stands": 2,
+    "available_bike_stands": 20,
+    "available_bikes": 2,
+    "status": "a",
+    "last_update": 2222222
   }
 ]

@@ -108,24 +108,38 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 		/// <summary>
 		/// Get a single station by number
 		/// </summary>
-		public async Task<Station> GetStationByNumberAsync(int number)
+		public async Task<Station?> GetStationByNumberAsync(int number)
 		{
 			try
 			{
 				var url = $"{ApiV2Base}/{number}";
+				Console.WriteLine($"[API CLIENT] Fetching station from: {url}");
+				
 				var response = await _httpClient.GetAsync(url);
-				response.EnsureSuccessStatusCode();
+				
+				if (!response.IsSuccessStatusCode)
+				{
+					Console.WriteLine($"[API CLIENT] Station {number} not found (Status: {response.StatusCode})");
+					return null;
+				}
 
 				var content = await response.Content.ReadAsStringAsync();
+				Console.WriteLine($"[API CLIENT] Station response preview: {content.Substring(0, Math.Min(300, content.Length))}");
+				
 				var station = JsonSerializer.Deserialize<Station>(content,
 					new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-				return station ?? new Station();
+				if (station != null)
+				{
+					Console.WriteLine($"[API CLIENT] Station {number} loaded: {station.name}");
+				}
+				return station;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error fetching station {number}: {ex.Message}");
-				return new Station();
+				Console.WriteLine($"[API CLIENT] Error fetching station {number}: {ex.Message}");
+				Console.WriteLine($"[API CLIENT] Stack trace: {ex.StackTrace}");
+				return null;
 			}
 		}
 

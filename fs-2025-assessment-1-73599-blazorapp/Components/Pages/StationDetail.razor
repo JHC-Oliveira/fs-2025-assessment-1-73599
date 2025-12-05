@@ -1,0 +1,242 @@
+@page "/stations/{number:int}"
+@using fs_2025_assessment_1_73599_blazorapp.Models
+@using fs_2025_assessment_1_73599_blazorapp.Services
+@rendermode InteractiveServer
+@inject StationsApiClient ApiClient
+@inject NavigationManager Navigation
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <a href="/stations" class="btn btn-secondary mb-3">
+                <span class="oi oi-arrow-left"></span> Back to Stations
+            </a>
+        </div>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="alert alert-info" role="alert">
+            <div class="spinner-border spinner-border-sm me-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            Loading station details...
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Error:</strong> @errorMessage
+            <button type="button" class="btn-close" @onclick="() => errorMessage = null"></button>
+        </div>
+    }
+
+    @if (!isLoading && station != null)
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">@station.name</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <strong>Station Number:</strong>
+                                <p>@station.number</p>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Contract:</strong>
+                                <p>@station.contract_name</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <strong>Address:</strong>
+                                <p>@station.address</p>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <strong>Status:</strong>
+                                <p>
+                                    @if (station.status == "OPEN")
+                                    {
+                                        <span class="badge bg-success">OPEN</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">CLOSED</span>
+                                    }
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Last Updated:</strong>
+                                <p>@station.last_update_local.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0">Bike Availability</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h2 class="display-4 text-info">@station.available_bikes</h2>
+                                    <p class="text-muted">Available Bikes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0">Bike Stands</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h2 class="display-4 text-warning">@station.bike_stands</h2>
+                                    <p class="text-muted">Total Stands</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0">Station Occupancy</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="progress" style="height: 30px;">
+                                    <div class="progress-bar"
+                                         role="progressbar"
+                                         style="width: @(station.OccupancyPercentage)%"
+                                         aria-valuenow="@station.OccupancyPercentage"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+                                        @station.OccupancyPercentage% Full
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0">
+                                    <strong>@station.available_bike_stands</strong> empty stands available
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Location</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            <strong>Latitude:</strong> @station.position.lat.ToString("F6")
+                        </p>
+                        <p>
+                            <strong>Longitude:</strong> @station.position.lng.ToString("F6")
+                        </p>
+                        <div class="alert alert-info">
+                            <small>Use these coordinates to view on a map service like Google Maps</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-3">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Quick Stats</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Available Bikes:</strong></td>
+                                    <td class="text-end">@station.available_bikes</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Empty Stands:</strong></td>
+                                    <td class="text-end">@station.available_bike_stands</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Capacity:</strong></td>
+                                    <td class="text-end">@station.bike_stands</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Occupancy:</strong></td>
+                                    <td class="text-end">@station.OccupancyPercentage%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (!isLoading && station == null && string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-warning" role="alert">
+            <h4 class="alert-heading">Station Not Found</h4>
+            <p>The station you're looking for could not be found.</p>
+            <a href="/stations" class="btn btn-primary">Back to Stations</a>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int number { get; set; }
+
+    private Station? station;
+    private bool isLoading = true;
+    private string errorMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStationDetails();
+    }
+
+    private async Task LoadStationDetails()
+    {
+        try
+        {
+            isLoading = true;
+            errorMessage = "";
+            Console.WriteLine($"[DETAIL PAGE] Loading station {number}");
+
+            station = await ApiClient.GetStationByNumberAsync(number);
+
+            if (station == null)
+            {
+                errorMessage = $"Station {number} not found";
+                Console.WriteLine($"[DETAIL PAGE] Station {number} not found");
+            }
+            else
+            {
+                Console.WriteLine($"[DETAIL PAGE] Station {number} loaded: {station.name}");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Failed to load station details: {ex.Message}";
+            Console.WriteLine($"[DETAIL PAGE] Error: {ex}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

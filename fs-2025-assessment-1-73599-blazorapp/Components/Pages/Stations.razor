@@ -3,6 +3,7 @@
 @using fs_2025_assessment_1_73599_blazorapp.Services
 @rendermode InteractiveServer
 @inject StationsApiClient ApiClient
+@inject NavigationManager Navigation
 
 <div class="container-fluid py-4">
     <div class="row mb-4">
@@ -440,6 +441,7 @@
 
     private void ViewDetails(int stationNumber)
     {
-        Console.WriteLine($"View details for station {stationNumber}");
+        Console.WriteLine($"[VIEW] Navigating to station detail page: {stationNumber}");
+        Navigation.NavigateTo($"/stations/{stationNumber}");
     }
 }

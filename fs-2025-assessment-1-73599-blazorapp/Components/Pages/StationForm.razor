@@ -1,0 +1,95 @@
+﻿@using fs_2025_assessment_1_73599_blazorapp.Models
+@using Microsoft.AspNetCore.Components.Forms
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">@Title</h3>
+    </div>
+    <div class="card-body">
+        <EditForm Model="@Station" OnValidSubmit="@OnValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="row g-3">
+                <!-- Station Number -->
+                <div class="col-md-6">
+                    <label for="number" class="form-label">Station Number</label>
+                    <InputNumber id="number" class="form-control" @bind-Value="Station.number" disabled="@IsEditMode" />
+                    <ValidationMessage For="@(() => Station.number)" />
+                </div>
+
+                <!-- Station Name -->
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Name</label>
+                    <InputText id="name" class="form-control" @bind-Value="Station.name" />
+                    <ValidationMessage For="@(() => Station.name)" />
+                </div>
+
+                <!-- Address -->
+                <div class="col-12">
+                    <label for="address" class="form-label">Address</label>
+                    <InputText id="address" class="form-control" @bind-Value="Station.address" />
+                    <ValidationMessage For="@(() => Station.address)" />
+                </div>
+
+                <!-- Bike Stands -->
+                <div class="col-md-4">
+                    <label for="bike_stands" class="form-label">Total Bike Stands</label>
+                    <InputNumber id="bike_stands" class="form-control" @bind-Value="Station.bike_stands" />
+                    <ValidationMessage For="@(() => Station.bike_stands)" />
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Status</label>
+                    <InputSelect id="status" class="form-select" @bind-Value="Station.status">
+                        <option value="OPEN">OPEN</option>
+                        <option value="CLOSED">CLOSED</option>
+                    </InputSelect>
+                    <ValidationMessage For="@(() => Station.status)" />
+                </div>
+
+                <!-- Latitude -->
+                <div class="col-md-6">
+                    <label for="lat" class="form-label">Latitude</label>
+                    <InputNumber id="lat" class="form-control" @bind-Value="Station.position.lat" />
+                    <ValidationMessage For="@(() => Station.position.lat)" />
+                </div>
+
+                <!-- Longitude -->
+                <div class="col-md-6">
+                    <label for="lng" class="form-label">Longitude</label>
+                    <InputNumber id="lng" class="form-control" @bind-Value="Station.position.lng" />
+                    <ValidationMessage For="@(() => Station.position.lng)" />
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-12 mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <span class="oi oi-check"></span> @(IsEditMode ? "Save Changes" : "Create Station")
+                    </button>
+                    <button type="button" class="btn btn-secondary ms-2" @onclick="OnCancel">
+                        <span class="oi oi-x"></span> Cancel
+                    </button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Station Station { get; set; } = new Station() { position = new Models.Position(), status = "OPEN" };
+
+    [Parameter]
+    public bool IsEditMode { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Station Form";
+
+    [Parameter]
+    public EventCallback OnValidSubmit { get; set; }
+
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+}

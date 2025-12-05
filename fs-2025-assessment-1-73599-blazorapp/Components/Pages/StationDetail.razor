@@ -4,13 +4,22 @@
 @rendermode InteractiveServer
 @inject StationsApiClient ApiClient
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
 
 <div class="container-fluid py-4">
-    <div class="row mb-4">
-        <div class="col-md-12">
+    <div class="col-md-12 d-flex justify-content-between align-items-center">
+        <div>
             <a href="/stations" class="btn btn-secondary mb-3">
                 <span class="oi oi-arrow-left"></span> Back to Stations
             </a>
+        </div>
+        <div>
+            <button class="btn btn-warning mb-3 me-2" @onclick="NavigateToEdit">
+                <span class="oi oi-pencil"></span> Edit Station
+            </button>
+            <button class="btn btn-danger mb-3" @onclick="HandleDelete">
+                <span class="oi oi-trash"></span> Delete Station
+            </button>
         </div>
     </div>
 
@@ -239,4 +248,47 @@
             isLoading = false;
         }
     }
+    private void NavigateToEdit()
+    {
+        Navigation.NavigateTo($"/stations/edit/{number}");
+    }
+    private bool isDeleting = false;
+
+    private async Task HandleDelete()
+    {
+        if (station == null) return;
+
+        // Simple confirmation for the user
+        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete station {station.name} ({number})?"))
+        {
+            return;
+        }
+
+        isDeleting = true;
+        errorMessage = "";
+        try
+        {
+            bool success = await ApiClient.DeleteStationAsync(number);
+
+            if (success)
+            {
+                // Navigate back to the master list after successful deletion
+                Navigation.NavigateTo("/stations", forceLoad: true);
+            }
+            else
+            {
+                errorMessage = "Failed to delete station. Please check the API status.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An unexpected error occurred during deletion: {ex.Message}";
+        }
+        finally
+        {
+            isDeleting = false;
+        }
+    }
+
+
 }

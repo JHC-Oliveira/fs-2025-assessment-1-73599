@@ -11,7 +11,10 @@
             <h1 class="display-5">Dublin Bike Stations</h1>
             <p class="text-muted">Browse and manage bike stations across Dublin</p>
         </div>
-        <div class="col-md-4 text-end">
+        <div class="col-md-4 text-end d-flex align-items-end justify-content-end">
+            <button class="btn btn-success me-2" @onclick="NavigateToCreate">
+                <span class="oi oi-plus"></span> Create New
+            </button>
             <button class="btn btn-primary" @onclick="RefreshStations">
                 <span class="oi oi-reload"></span> Refresh
             </button>
@@ -443,5 +446,9 @@
     {
         Console.WriteLine($"[VIEW] Navigating to station detail page: {stationNumber}");
         Navigation.NavigateTo($"/stations/{stationNumber}");
+    }
+    private void NavigateToCreate()
+    {
+        Navigation.NavigateTo("/stations/create");
     }
 }

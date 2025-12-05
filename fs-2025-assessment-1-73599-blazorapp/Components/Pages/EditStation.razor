@@ -1,0 +1,91 @@
+﻿@page "/stations/edit/{number:int}"
+@using fs_2025_assessment_1_73599_blazorapp.Models
+@using fs_2025_assessment_1_73599_blazorapp.Services
+@rendermode InteractiveServer
+@inject StationsApiClient ApiClient
+@inject NavigationManager Navigation
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="display-5 mb-4">Edit Station @number</h1>
+
+            @if (isLoading)
+            {
+                <div class="alert alert-info">Loading station data...</div>
+            }
+            else if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
+            else if (station != null)
+            {
+                <StationForm Station="station"
+                             Title="Edit Station Details"
+                             IsEditMode="true"
+                             OnValidSubmit="HandleUpdate"
+                             OnCancel="HandleCancel" />
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int number { get; set; }
+
+    private Station? station;
+    private bool isLoading = true;
+    private string errorMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadStationDetails();
+    }
+
+    private async Task LoadStationDetails()
+    {
+        isLoading = true;
+        errorMessage = "";
+        station = await ApiClient.GetStationByNumberAsync(number);
+
+        if (station == null)
+        {
+            errorMessage = $"Station {number} not found.";
+        }
+        isLoading = false;
+    }
+
+    private async Task HandleUpdate()
+    {
+        if (station == null) return;
+
+        errorMessage = "";
+        try
+        {
+            // Set last_update to current time
+            station.last_update = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+            bool success = await ApiClient.UpdateStationAsync(number, station);
+
+            if (success)
+            {
+                // Navigate back to the detail page on success
+                Navigation.NavigateTo($"/stations/{number}", forceLoad: true);
+            }
+            else
+            {
+                errorMessage = "Failed to update station. Please check the API status.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An unexpected error occurred: {ex.Message}";
+        }
+    }
+
+    private void HandleCancel()
+    {
+        Navigation.NavigateTo($"/stations/{number}");
+    }
+}

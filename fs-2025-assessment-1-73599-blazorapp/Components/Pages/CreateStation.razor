@@ -1,0 +1,71 @@
+﻿@page "/stations/create"
+@using fs_2025_assessment_1_73599_blazorapp.Models
+@using fs_2025_assessment_1_73599_blazorapp.Services
+@rendermode InteractiveServer
+@inject StationsApiClient ApiClient
+@inject NavigationManager Navigation
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h1 class="display-5 mb-4">Create New Station</h1>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
+
+            <StationForm Station="station"
+                         Title="New Station Details"
+                         IsEditMode="false"
+                         OnValidSubmit="HandleCreate"
+                         OnCancel="HandleCancel" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private Station station = new Station()
+    {
+        position = new Models.Position(),
+        status = "OPEN",
+        contract_name = "dublin", // Default value for convenience
+        available_bikes = 0,
+        available_bike_stands = 0,
+        last_update = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+    };
+    private string errorMessage = "";
+
+    private async Task HandleCreate()
+    {
+        errorMessage = "";
+        try
+        {
+            // Set initial values for non-editable fields
+            station.last_update = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            station.available_bikes = 0;
+            station.available_bike_stands = station.bike_stands;
+
+            bool success = await ApiClient.CreateStationAsync(station);
+
+            if (success)
+            {
+                // Navigate back to the main list on success
+                Navigation.NavigateTo("/stations", forceLoad: true);
+            }
+            else
+            {
+                errorMessage = "Failed to create station. The station number might already exist or the API is unavailable.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An unexpected error occurred: {ex.Message}";
+        }
+    }
+
+    private void HandleCancel()
+    {
+        Navigation.NavigateTo("/stations");
+    }
+}

@@ -98,6 +98,14 @@ namespace fs_2025_assessment_1_73599.Endpoint
 				var success = await service.UpdateStationAsync(number, updated);
 				return success ? Results.Ok(updated) : Results.NotFound();
 			});
+
+			// DELETE a station
+			app.MapDelete("/api/v2/stations/{number}", async (int number, CosmosStationService service) =>
+			{
+				var success = await service.DeleteStationAsync(number);
+				return success ? Results.NoContent() : Results.NotFound();
+			});
+
 		}
 	}
 }

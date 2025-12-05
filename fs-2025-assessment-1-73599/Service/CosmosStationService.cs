@@ -132,6 +132,21 @@ namespace fs_2025_assessment_1_73599.Service
 			return true;
 		}
 
+		//Delete a station
+		public async Task<bool> DeleteStationAsync(int number)
+		{
+			try
+			{
+				await _container.DeleteItemAsync<Station>(number.ToString(), new PartitionKey(number));
+				await SaveStationsToJsonAsync();
+				return true;
+			}
+			catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+			{
+				return false;
+			}
+		}
+
 		private async Task SaveStationsToJsonAsync()
 		{
 			var stations = await GetAllStationsAsync();

@@ -1,0 +1,256 @@
+@using fs_2025_assessment_1_73599_blazorapp.Models
+
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <h5 class="mb-0">
+            <button class="btn btn-link text-decoration-none" type="button" @onclick="ToggleFilters">
+                <span class="@(ShowFilters ? "oi oi-chevron-bottom" : "oi oi-chevron-right")"></span>
+                Filters & Search
+            </button>
+        </h5>
+    </div>
+
+    @if (ShowFilters)
+    {
+        <div class="card-body">
+            <div class="row g-3">
+                <!-- Search Box -->
+                <div class="col-md-4">
+                    <label for="searchInput" class="form-label">Search by Name or Address</label>
+                    <input type="text"
+                           class="form-control"
+                           id="searchInput"
+                           placeholder="Enter station name or address..."
+                           @bind="SearchTerm"
+                           @onkeyup="OnSearchChanged" />
+                </div>
+
+                <!-- Status Filter -->
+                <div class="col-md-3">
+                    <label for="statusFilter" class="form-label">Status</label>
+                    <select class="form-select" id="statusFilter" @onchange="HandleStatusChange">
+                        <option value="">All Stations</option>
+                        <option value="OPEN">Open</option>
+                        <option value="CLOSED">Closed</option>
+                    </select>
+                </div>
+
+                <!-- Minimum Bikes Filter -->
+                <div class="col-md-3">
+                    <label for="minBikesInput" class="form-label">Minimum Available Bikes</label>
+                    <input type="number"
+                           class="form-control"
+                           id="minBikesInput"
+                           min="0"
+                           placeholder="0"
+                           @onchange="HandleMinBikesChange" />
+                </div>
+
+                <!-- Sort Control -->
+                <div class="col-md-2">
+                    <label for="sortSelect" class="form-label">Sort By</label>
+                    <select class="form-select" id="sortSelect" @onchange="HandleSortChange">
+                        <option value="">None</option>
+                        <option value="name">Name</option>
+                        <option value="availablebikes">Available Bikes</option>
+                        <option value="occupancy">Occupancy</option>
+                    </select>
+                </div>
+
+                <!-- Sort Direction -->
+                <div class="col-md-2">
+                    <label for="sortDir" class="form-label">Direction</label>
+                    <select class="form-select" id="sortDir" @onchange="HandleSortDirectionChange">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+
+                <!-- Clear Filters Button -->
+                <div class="col-12">
+                    <button class="btn btn-secondary" @onclick="ClearFilters">
+                        <span class="oi oi-x"></span> Clear All Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Filters Display -->
+            @if (HasActiveFilters())
+            {
+                <div class="mt-3">
+                    <p class="text-muted mb-2"><strong>Active Filters:</strong></p>
+                    <div class="d-flex flex-wrap gap-2">
+                        @if (!string.IsNullOrEmpty(SearchTerm))
+                        {
+                            <span class="badge bg-info">
+                                Search: @SearchTerm
+                                <button class="btn-close btn-close-white ms-1" @onclick="() => ClearSearch()" style="font-size: 0.7rem;"></button>
+                            </span>
+                        }
+
+                        @if (!string.IsNullOrEmpty(SelectedStatus))
+                        {
+                            <span class="badge bg-info">
+                                Status: @SelectedStatus
+                                <button class="btn-close btn-close-white ms-1" @onclick="() => ClearStatus()" style="font-size: 0.7rem;"></button>
+                            </span>
+                        }
+
+                        @if (MinBikesFilter > 0)
+                        {
+                            <span class="badge bg-info">
+                                Min Bikes: @MinBikesFilter
+                                <button class="btn-close btn-close-white ms-1" @onclick="() => ClearMinBikes()" style="font-size: 0.7rem;"></button>
+                            </span>
+                        }
+
+                        @if (!string.IsNullOrEmpty(SortBy))
+                        {
+                            <span class="badge bg-info">
+                                Sort: @SortBy (@SortDirection)
+                                <button class="btn-close btn-close-white ms-1" @onclick="() => ClearSort()" style="font-size: 0.7rem;"></button>
+                            </span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string SearchTerm { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> SearchTermChanged { get; set; }
+
+    [Parameter]
+    public string SelectedStatus { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> SelectedStatusChanged { get; set; }
+
+    [Parameter]
+    public int MinBikesFilter { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<int> MinBikesFilterChanged { get; set; }
+
+    [Parameter]
+    public string SortBy { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> SortByChanged { get; set; }
+
+    [Parameter]
+    public string SortDirection { get; set; } = "asc";
+
+    [Parameter]
+    public EventCallback<string> SortDirectionChanged { get; set; }
+
+    [Parameter]
+    public EventCallback OnFiltersApplied { get; set; }
+
+    private bool ShowFilters = false;
+
+    private void ToggleFilters()
+    {
+        ShowFilters = !ShowFilters;
+    }
+
+    private async Task HandleStatusChange(ChangeEventArgs e)
+    {
+        SelectedStatus = e.Value?.ToString() ?? "";
+        await SelectedStatusChanged.InvokeAsync(SelectedStatus);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private async Task HandleMinBikesChange(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value?.ToString(), out int value))
+        {
+            MinBikesFilter = value;
+        }
+        else
+        {
+            MinBikesFilter = 0;
+        }
+        await MinBikesFilterChanged.InvokeAsync(MinBikesFilter);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private async Task HandleSortChange(ChangeEventArgs e)
+    {
+        SortBy = e.Value?.ToString() ?? "";
+        await SortByChanged.InvokeAsync(SortBy);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private async Task HandleSortDirectionChange(ChangeEventArgs e)
+    {
+        SortDirection = e.Value?.ToString() ?? "asc";
+        await SortDirectionChanged.InvokeAsync(SortDirection);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private async Task OnSearchChanged(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            await SearchTermChanged.InvokeAsync(SearchTerm);
+            await OnFiltersApplied.InvokeAsync();
+        }
+    }
+
+    private async Task ClearFilters()
+    {
+        SearchTerm = "";
+        SelectedStatus = "";
+        MinBikesFilter = 0;
+        SortBy = "";
+        SortDirection = "asc";
+
+        await SearchTermChanged.InvokeAsync(SearchTerm);
+        await SelectedStatusChanged.InvokeAsync(SelectedStatus);
+        await MinBikesFilterChanged.InvokeAsync(MinBikesFilter);
+        await SortByChanged.InvokeAsync(SortBy);
+        await SortDirectionChanged.InvokeAsync(SortDirection);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private async Task ClearSearch()
+    {
+        SearchTerm = "";
+        await SearchTermChanged.InvokeAsync(SearchTerm);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private async Task ClearStatus()
+    {
+        SelectedStatus = "";
+        await SelectedStatusChanged.InvokeAsync(SelectedStatus);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private async Task ClearMinBikes()
+    {
+        MinBikesFilter = 0;
+        await MinBikesFilterChanged.InvokeAsync(MinBikesFilter);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private async Task ClearSort()
+    {
+        SortBy = "";
+        await SortByChanged.InvokeAsync(SortBy);
+        await OnFiltersApplied.InvokeAsync();
+    }
+
+    private bool HasActiveFilters()
+    {
+        return !string.IsNullOrEmpty(SearchTerm) ||
+               !string.IsNullOrEmpty(SelectedStatus) ||
+               MinBikesFilter > 0;
+    }
+}

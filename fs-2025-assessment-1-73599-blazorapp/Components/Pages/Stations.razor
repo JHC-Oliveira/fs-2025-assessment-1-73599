@@ -1,6 +1,7 @@
 ﻿@page "/stations"
 @using fs_2025_assessment_1_73599_blazorapp.Models
 @using fs_2025_assessment_1_73599_blazorapp.Services
+@rendermode InteractiveServer
 @inject StationsApiClient ApiClient
 
 <div class="container-fluid py-4">
@@ -295,6 +296,7 @@
     private void ToggleFilters()
     {
         showFilters = !showFilters;
+        StateHasChanged();
     }
 
     private async Task LoadStations()
@@ -309,13 +311,15 @@
                 pageSize,
                 searchTerm,
                 selectedStatus,
-                minBikesFilter);
+                minBikesFilter,
+                sortBy,
+                sortDirection);
 
             stations = response.data;
             totalStations = response.total;
             totalPages = (int)Math.Ceiling((double)totalStations / pageSize);
 
-            if (stations.Count == 0 && !HasActiveFilters())
+            if (stations.Count == 0 && !HasActiveFilters() && response.total == 0)
             {
                 errorMessage = "No stations found";
             }
@@ -431,8 +435,7 @@
     {
         return !string.IsNullOrEmpty(searchTerm) ||
                !string.IsNullOrEmpty(selectedStatus) ||
-               minBikesFilter > 0 ||
-               !string.IsNullOrEmpty(sortBy);
+               minBikesFilter > 0;
     }
 
     private void ViewDetails(int stationNumber)

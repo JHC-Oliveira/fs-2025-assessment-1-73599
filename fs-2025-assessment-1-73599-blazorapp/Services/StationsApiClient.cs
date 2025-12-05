@@ -22,7 +22,9 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 			int pageSize = 10,
 			string searchTerm = "",
 			string status = "",
-			int minBikes = 0)
+			int minBikes = 0,
+			string sortBy = "",
+			string sortDirection = "asc")
 		{
 			try
 			{
@@ -39,39 +41,66 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 				if (minBikes > 0)
 					queryParams.Add($"minBikes={minBikes}");
 
+				if (!string.IsNullOrEmpty(sortBy))
+				{
+					queryParams.Add($"sort={Uri.EscapeDataString(sortBy)}");
+					queryParams.Add($"acs_desc={Uri.EscapeDataString(sortDirection)}");
+				}
+
 				var queryString = string.Join("&", queryParams);
 				var url = $"{ApiV2Base}/query?{queryString}";
 
-				Console.WriteLine($"Fetching from: {url}");
+				Console.WriteLine($"[API CLIENT] Fetching from: {url}");
+				Console.WriteLine($"[API CLIENT] Parameters - Page: {page}, PageSize: {pageSize}, Search: {searchTerm}, Status: {status}, MinBikes: {minBikes}, Sort: {sortBy}, Direction: {sortDirection}");
 
 				var response = await _httpClient.GetAsync(url);
 				response.EnsureSuccessStatusCode();
 
 				var content = await response.Content.ReadAsStringAsync();
-				Console.WriteLine($"API Response: {content.Substring(0, Math.Min(200, content.Length))}");
+				Console.WriteLine($"[API CLIENT] Response status: {response.StatusCode}");
+				Console.WriteLine($"[API CLIENT] Response length: {content.Length} characters");
+				Console.WriteLine($"[API CLIENT] Response preview: {content.Substring(0, Math.Min(500, content.Length))}");
 
-				// API returns a List<Station> directly, not a wrapped response
-				var stationsList = JsonSerializer.Deserialize<List<Station>>(content,
-					new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+				// API now returns an object with data and total
+				using var jsonDoc = JsonDocument.Parse(content);
+				var root = jsonDoc.RootElement;
 
-				if (stationsList == null || stationsList.Count == 0)
+				// Extract the data array
+				var dataArray = root.GetProperty("data");
+				var stationsList = JsonSerializer.Deserialize<List<Station>>(dataArray.GetRawText(),
+					new JsonSerializerOptions { PropertyNameCaseInsensitive = true }) ?? new List<Station>();
+
+				// Extract the total count
+				int total = root.GetProperty("total").GetInt32();
+
+				Console.WriteLine($"[API CLIENT] Deserialized {stationsList.Count} stations, total: {total}");
+
+				if (stationsList.Count == 0)
 				{
-					return new StationResponse { data = new(), total = 0, page = page, pageSize = pageSize };
+					Console.WriteLine($"[API CLIENT] Returning empty response");
+					return new StationResponse { data = new(), total = total, page = page, pageSize = pageSize };
 				}
 
 				// Wrap the response to match our StationResponse model
-				return new StationResponse
+				var result = new StationResponse
 				{
 					data = stationsList,
-					total = stationsList.Count,
+					total = total,
 					page = page,
 					pageSize = pageSize
 				};
+				Console.WriteLine($"[API CLIENT] Returning {result.data.Count} stations with total {result.total}");
+				return result;
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"Error fetching stations: {ex.Message}");
-				Console.WriteLine($"Stack trace: {ex.StackTrace}");
+				Console.WriteLine($"[API CLIENT] ERROR fetching stations: {ex.Message}");
+				Console.WriteLine($"[API CLIENT] Exception Type: {ex.GetType().Name}");
+				Console.WriteLine($"[API CLIENT] Stack trace: {ex.StackTrace}");
+				if (ex.InnerException != null)
+				{
+					Console.WriteLine($"[API CLIENT] Inner Exception: {ex.InnerException.Message}");
+				}
 				return new StationResponse();
 			}
 		}

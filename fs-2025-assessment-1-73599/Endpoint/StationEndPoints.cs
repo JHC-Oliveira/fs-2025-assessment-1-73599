@@ -54,20 +54,22 @@ namespace fs_2025_assessment_1_73599.Endpoint
 
 			// ---------------- V2 ENDPOINTS (Cosmos DB) ----------------
 
-			// GET all stations with filters, search, sort, pagination
-			app.MapGet("/api/v2/stations/query", async (
-				string? status,
-				int? minBikes,
-				string? name_address,
-				string? sort,
-				string? acs_desc,
-				int? page,
-				int? pageSize,
-				CosmosStationService service) =>
-			{
-				var results = await service.QueryStationsAsync(status, minBikes, name_address, sort, acs_desc, page, pageSize);
-				return Results.Ok(results);
-			});
+		// GET all stations with filters, search, sort, pagination
+		app.MapGet("/api/v2/stations/query", async (
+			string? status,
+			int? minBikes,
+			string? name_address,
+			string? sort,
+			string? acs_desc,
+			int? page,
+			int? pageSize,
+			CosmosStationService service) =>
+		{
+			Console.WriteLine($"[API ENDPOINT] Query called - status:{status}, minBikes:{minBikes}, name_address:{name_address}, sort:{sort}, acs_desc:{acs_desc}, page:{page}, pageSize:{pageSize}");
+			var results = await service.QueryStationsAsync(status, minBikes, name_address, sort, acs_desc, page, pageSize);
+			Console.WriteLine($"[API ENDPOINT] Query returned results");
+			return Results.Ok(results);
+		});
 
 			// GET summary
 			app.MapGet("/api/v2/stations/summary", async (CosmosStationService service) =>

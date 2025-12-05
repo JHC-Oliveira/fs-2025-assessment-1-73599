@@ -1,0 +1,184 @@
+﻿using fs_2025_assessment_1_73599_blazorapp.Models;
+using System.Text;
+using System.Text.Json;
+
+namespace fs_2025_assessment_1_73599_blazorapp.Services
+{
+	public class StationsApiClient
+	{
+		private readonly HttpClient _httpClient;
+		private const string ApiV2Base = "/api/v2/stations";
+
+		public StationsApiClient(HttpClient httpClient)
+		{
+			_httpClient = httpClient;
+		}
+
+		/// <summary>
+		/// Get a paginated and filtered list of stations
+		/// </summary>
+		public async Task<StationResponse> GetStationsAsync(
+			int page = 1,
+			int pageSize = 10,
+			string searchTerm = "",
+			string status = "",
+			int minBikes = 0)
+		{
+			try
+			{
+				var queryParams = new List<string>();
+				queryParams.Add($"page={page}");
+				queryParams.Add($"pageSize={pageSize}");
+
+				if (!string.IsNullOrEmpty(searchTerm))
+					queryParams.Add($"name_address={Uri.EscapeDataString(searchTerm)}");
+
+				if (!string.IsNullOrEmpty(status))
+					queryParams.Add($"status={Uri.EscapeDataString(status)}");
+
+				if (minBikes > 0)
+					queryParams.Add($"minBikes={minBikes}");
+
+				var queryString = string.Join("&", queryParams);
+				var url = $"{ApiV2Base}/query?{queryString}";
+
+				Console.WriteLine($"Fetching from: {url}");
+
+				var response = await _httpClient.GetAsync(url);
+				response.EnsureSuccessStatusCode();
+
+				var content = await response.Content.ReadAsStringAsync();
+				Console.WriteLine($"API Response: {content.Substring(0, Math.Min(200, content.Length))}");
+
+				// API returns a List<Station> directly, not a wrapped response
+				var stationsList = JsonSerializer.Deserialize<List<Station>>(content,
+					new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+				if (stationsList == null || stationsList.Count == 0)
+				{
+					return new StationResponse { data = new(), total = 0, page = page, pageSize = pageSize };
+				}
+
+				// Wrap the response to match our StationResponse model
+				return new StationResponse
+				{
+					data = stationsList,
+					total = stationsList.Count,
+					page = page,
+					pageSize = pageSize
+				};
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error fetching stations: {ex.Message}");
+				Console.WriteLine($"Stack trace: {ex.StackTrace}");
+				return new StationResponse();
+			}
+		}
+
+		/// <summary>
+		/// Get a single station by number
+		/// </summary>
+		public async Task<Station> GetStationByNumberAsync(int number)
+		{
+			try
+			{
+				var url = $"{ApiV2Base}/{number}";
+				var response = await _httpClient.GetAsync(url);
+				response.EnsureSuccessStatusCode();
+
+				var content = await response.Content.ReadAsStringAsync();
+				var station = JsonSerializer.Deserialize<Station>(content,
+					new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+				return station ?? new Station();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error fetching station {number}: {ex.Message}");
+				return new Station();
+			}
+		}
+
+		/// <summary>
+		/// Get summary information about all stations
+		/// </summary>
+		public async Task<SummaryResponse> GetSummaryAsync()
+		{
+			try
+			{
+				var url = $"{ApiV2Base}/summary";
+				var response = await _httpClient.GetAsync(url);
+				response.EnsureSuccessStatusCode();
+
+				var content = await response.Content.ReadAsStringAsync();
+				var summary = JsonSerializer.Deserialize<SummaryResponse>(content,
+					new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+				return summary ?? new SummaryResponse();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error fetching summary: {ex.Message}");
+				return new SummaryResponse();
+			}
+		}
+
+		/// <summary>
+		/// Create a new station
+		/// </summary>
+		public async Task<bool> CreateStationAsync(Station station)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(station);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var response = await _httpClient.PostAsync(ApiV2Base, content);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error creating station: {ex.Message}");
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Update an existing station
+		/// </summary>
+		public async Task<bool> UpdateStationAsync(int number, Station station)
+		{
+			try
+			{
+				var json = JsonSerializer.Serialize(station);
+				var content = new StringContent(json, Encoding.UTF8, "application/json");
+				var url = $"{ApiV2Base}/{number}";
+				var response = await _httpClient.PutAsync(url, content);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error updating station {number}: {ex.Message}");
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Delete a station
+		/// </summary>
+		public async Task<bool> DeleteStationAsync(int number)
+		{
+			try
+			{
+				var url = $"{ApiV2Base}/{number}";
+				var response = await _httpClient.DeleteAsync(url);
+				return response.IsSuccessStatusCode;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error deleting station {number}: {ex.Message}");
+				return false;
+			}
+		}
+	}
+}

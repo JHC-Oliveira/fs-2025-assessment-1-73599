@@ -14,9 +14,7 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 			_httpClient = httpClient;
 		}
 
-		/// <summary>
 		/// Get a paginated and filtered list of stations
-		/// </summary>
 		public async Task<StationResponse> GetStationsAsync(
 			int page = 1,
 			int pageSize = 10,
@@ -105,9 +103,7 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 			}
 		}
 
-		/// <summary>
 		/// Get a single station by number
-		/// </summary>
 		public async Task<Station?> GetStationByNumberAsync(int number)
 		{
 			try
@@ -143,9 +139,7 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 			}
 		}
 
-		/// <summary>
 		/// Get summary information about all stations
-		/// </summary>
 		public async Task<SummaryResponse> GetSummaryAsync()
 		{
 			try
@@ -167,9 +161,7 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 			}
 		}
 
-		/// <summary>
 		/// Create a new station
-		/// </summary>
 		public async Task<bool> CreateStationAsync(Station station)
 		{
 			try
@@ -186,9 +178,7 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 			}
 		}
 
-		/// <summary>
 		/// Update an existing station
-		/// </summary>
 		public async Task<bool> UpdateStationAsync(int number, Station station)
 		{
 			try
@@ -206,9 +196,7 @@ namespace fs_2025_assessment_1_73599_blazorapp.Services
 			}
 		}
 
-		/// <summary>
 		/// Delete a station
-		/// </summary>
 		public async Task<bool> DeleteStationAsync(int number)
 		{
 			try

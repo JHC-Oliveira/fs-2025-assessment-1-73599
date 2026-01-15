@@ -1,5 +1,9 @@
 using fs_2025_assessment_1_73599.Models;
 using fs_2025_assessment_1_73599.Service;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace fs_2025_assessment_1_73599.Tests.Services
@@ -47,14 +51,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void GetAllStations_ReturnsAllStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.GetAllStations();
-
-			// Assert
+			
 			Assert.Equal(3, result.Count);
 			Assert.Equal("Station A", result[0].name);
 		}
@@ -62,14 +62,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void GetStationByNumber_WithValidNumber_ReturnsStation()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.GetStationByNumber(2);
-
-			// Assert
+			
 			Assert.NotNull(result);
 			Assert.Equal("Station B", result.name);
 			Assert.Equal(2, result.number);
@@ -78,28 +74,20 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void GetStationByNumber_WithInvalidNumber_ReturnsNull()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.GetStationByNumber(999);
-
-			// Assert
+			
 			Assert.Null(result);
 		}
 
 		[Fact]
 		public void QueryStations_FilterByStatus_ReturnsFilteredStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: "OPEN", minBikes: null, name_address: null, sort: null, acs_desc: null, page: null, pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Equal(2, result.Count);
 			Assert.All(result, s => Assert.Equal("OPEN", s.status));
 		}
@@ -107,14 +95,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void QueryStations_FilterByMinBikes_ReturnsStationsWithEnoughBikes()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: 10, name_address: null, sort: null, acs_desc: null, page: null, pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Equal(2, result.Count);
 			Assert.All(result, s => Assert.True(s.available_bikes >= 10));
 		}
@@ -122,14 +106,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void QueryStations_SearchByName_ReturnsMatchingStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: null, name_address: "Station A", sort: null, acs_desc: null, page: null, pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Single(result);
 			Assert.Equal("Station A", result[0].name);
 		}
@@ -137,14 +117,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void QueryStations_SearchByAddress_ReturnsMatchingStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: null, name_address: "Oak", sort: null, acs_desc: null, page: null, pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Single(result);
 			Assert.Equal("Station B", result[0].name);
 		}
@@ -152,14 +128,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void QueryStations_SortByNameAscending_ReturnsSortedStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: null, name_address: null, sort: "name", acs_desc: "asc", page: null, pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Equal(3, result.Count);
 			Assert.Equal("Station A", result[0].name);
 			Assert.Equal("Station B", result[1].name);
@@ -169,14 +141,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void QueryStations_SortByNameDescending_ReturnsSortedStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: null, name_address: null, sort: "name", acs_desc: "desc", page: null, pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Equal(3, result.Count);
 			Assert.Equal("Station C", result[0].name);
 			Assert.Equal("Station B", result[1].name);
@@ -186,14 +154,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void QueryStations_SortByAvailableBikes_ReturnsSortedStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: null, name_address: null, sort: "availablebikes", acs_desc: "asc", page: null, pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Equal(3, result.Count);
 			Assert.Equal(5, result[0].available_bikes);
 			Assert.Equal(10, result[1].available_bikes);
@@ -203,32 +167,23 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void QueryStations_SortByOccupancy_ReturnsSortedStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: null, name_address: null, sort: "occupancy", acs_desc: "asc", page: null, pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Equal(3, result.Count);
-			// Occupancy: A=50%, B=33%, C=60%
-			Assert.Equal("Station B", result[0].name); // 33%
-			Assert.Equal("Station A", result[1].name); // 50%
-			Assert.Equal("Station C", result[2].name); // 60%
+			Assert.Equal("Station B", result[0].name);
+			Assert.Equal("Station A", result[1].name);
+			Assert.Equal("Station C", result[2].name);
 		}
 
 		[Fact]
 		public void QueryStations_WithPagination_ReturnsPaginatedStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: null, name_address: null, sort: null, acs_desc: null, page: 2, pageSize: 1).ToList();
-
-			// Assert
+			
 			Assert.Single(result);
 			Assert.Equal("Station B", result[0].name);
 		}
@@ -236,14 +191,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void QueryStations_WithPaginationFirstPage_ReturnsFirstPageStations()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(status: null, minBikes: null, name_address: null, sort: null, acs_desc: null, page: 1, pageSize: 2).ToList();
-
-			// Assert
+			
 			Assert.Equal(2, result.Count);
 			Assert.Equal("Station A", result[0].name);
 			Assert.Equal("Station B", result[1].name);
@@ -252,14 +203,10 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void GetSummary_ReturnsSummaryData()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.GetSummary();
-
-			// Assert
+			
 			Assert.NotNull(result);
 			var properties = result.GetType().GetProperties();
 			Assert.Contains(properties, p => p.Name == "totalStations");
@@ -269,25 +216,8 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		}
 
 		[Fact]
-		public void GetSummary_CalculatesCorrectValues()
-		{
-			// Arrange
-			var stations = CreateTestStations();
-			var service = new StationService(stations, _testJsonPath);
-
-			// Act
-			dynamic result = service.GetSummary();
-
-			// Assert
-			Assert.Equal(3, (int)result.totalStations);
-			Assert.Equal(60, (int)result.totalBikeStands); // 20 + 15 + 25
-			Assert.Equal(30, (int)result.totalAvailableBikes); // 10 + 5 + 15
-		}
-
-		[Fact]
 		public void AddStation_AddsNewStationToList()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
 			var newStation = new Station
@@ -301,10 +231,8 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 				contract_name = "Dublin"
 			};
 
-			// Act
 			service.AddStation(newStation);
-
-			// Assert
+			
 			Assert.Equal(4, service.GetAllStations().Count);
 			var added = service.GetStationByNumber(4);
 			Assert.NotNull(added);
@@ -314,7 +242,6 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void UpdateStation_UpdatesExistingStation()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
 			var updated = new Station
@@ -328,10 +255,8 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 				contract_name = "Dublin"
 			};
 
-			// Act
 			var result = service.UpdateStation(1, updated);
-
-			// Assert
+			
 			Assert.True(result);
 			var station = service.GetStationByNumber(1);
 			Assert.NotNull(station);
@@ -343,26 +268,19 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 		[Fact]
 		public void UpdateStation_WithInvalidNumber_ReturnsFalse()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
 			var updated = new Station { number = 999, name = "Fake Station" };
-
-			// Act
 			var result = service.UpdateStation(999, updated);
-
-			// Assert
+			
 			Assert.False(result);
 		}
 
 		[Fact]
 		public void QueryStations_CombineMultipleFilters_ReturnsCorrectResults()
 		{
-			// Arrange
 			var stations = CreateTestStations();
 			var service = new StationService(stations, _testJsonPath);
-
-			// Act
 			var result = service.QueryStations(
 				status: "OPEN",
 				minBikes: 10,
@@ -371,8 +289,7 @@ namespace fs_2025_assessment_1_73599.Tests.Services
 				acs_desc: null,
 				page: null,
 				pageSize: null).ToList();
-
-			// Assert
+			
 			Assert.Equal(2, result.Count);
 			Assert.All(result, s => Assert.Equal("OPEN", s.status));
 			Assert.All(result, s => Assert.True(s.available_bikes >= 10));

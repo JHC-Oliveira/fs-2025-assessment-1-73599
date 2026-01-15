@@ -44,6 +44,9 @@ jobs:
 
       - name: List root directory
         run: ls -la
+        
+      - name: List TestResults directory
+        run: ls -R ./fs-2025-assessment-1-73599.Tests/TestResults
 
       # xUnit tests + Coverlet data collector
       - name: Test (xUnit) and collect coverage

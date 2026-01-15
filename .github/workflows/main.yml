@@ -18,8 +18,8 @@ permissions:
   id-token: write
 
 env:
-DOTNET_VERSION: "8.0.x"
-TEST_PROJECT: "./fs-2025-assessment-1-73599.Tests/fs-2025-assessment-1-73599.Tests.csproj"
+  DOTNET_VERSION: "8.0.x"
+  TEST_PROJECT: "./fs-2025-assessment-1-73599.Tests/fs-2025-assessment-1-73599.Tests.csproj"
 
 jobs:
   build-and-test:
@@ -51,6 +51,7 @@ jobs:
           dotnet test $TEST_PROJECT -c Release --no-build
           --collect:"XPlat Code Coverage"
           --logger "trx;LogFileName=test-results.trx"
+          --results-directory:./coverage
 
       - name: Install ReportGenerator
         run: dotnet tool install -g dotnet-reportgenerator-globaltool
@@ -59,8 +60,8 @@ jobs:
         run: |
           export PATH="$PATH:~/.dotnet/tools"
           reportgenerator \
-            -reports:**/coverage.cobertura.xml \
-            -targetdir:coveragereport \
+            -reports:./coverage/**/coverage.cobertura.xml \
+            -targetdir:./coveragereport \
             -reporttypes:Html
 
       # Make the HTML report available as a workflow artifact on PRs too
@@ -68,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-html
-          path: coveragereport
+          path: ./coveragereport
 
       # Only package for Pages when merging/pushing to main
       - name: Upload Pages artifact

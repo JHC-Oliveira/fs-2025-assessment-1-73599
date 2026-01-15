@@ -18,8 +18,8 @@ permissions:
   id-token: write
 
 env:
-DOTNET_VERSION: "8.0.x"
-TEST_PROJECT: "./fs-2025-assessment-1-73599.Tests/fs-2025-assessment-1-73599.Tests.csproj"
+  DOTNET_VERSION: "8.0.x"
+  TEST_PROJECT: "./fs-2025-assessment-1-73599.Tests/fs-2025-assessment-1-73599.Tests.csproj"
 
 jobs:
   build-and-test:
